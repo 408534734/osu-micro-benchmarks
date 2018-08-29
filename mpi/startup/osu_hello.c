@@ -29,6 +29,17 @@ int main(int argc, char **argv)
         fprintf(stdout, "This is a test with %d processes\n", numprocs);
         fflush(stdout);
     }
+    char name[64];
+    int resultlen;
+    MPI_Get_processor_name(name, &resultlen);
+    int i;
+    for (i = 0; i < numprocs; i++) {
+    	if (i == myid) {
+		    fprintf(stdout, "Hello from %dth process on node %s\n", myid, name);
+		    fflush(stdout);
+		}
+		MPI_Barrier(MPI_COMM_WORLD);
+	}
 
     MPI_Finalize();
     return 0;
